@@ -58,6 +58,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddRazorPages();
+// Enable MVC controllers with views so we can add an IdentityController
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -74,6 +76,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Map default controller route for MVC controllers
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapStaticAssets();
 app.MapRazorPages()
