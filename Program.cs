@@ -1,6 +1,7 @@
 using IdentityNetCore.Data;
 using System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,27 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     // Sign-in settings
     options.SignIn.RequireConfirmedEmail = false;
+});
+
+// Configure application cookie settings
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Paths
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+    // Cookie settings
+    options.Cookie.Name = "IdentityNetCore.IdentityCookie";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    // Use Always for production; Local dev with HTTPS is OK
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+    // Expiration
+    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    options.SlidingExpiration = true;
+    options.ReturnUrlParameter = "ReturnUrl";
 });
 
 builder.Services.AddRazorPages();
