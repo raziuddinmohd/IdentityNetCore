@@ -22,7 +22,7 @@ namespace IdentityNetCore.Data
             if (string.IsNullOrEmpty(connectionString))
             {
                 // Fallback to a reasonable default for development (SQL Express with Windows Authentication)
-                connectionString = "Server=DESKTOP-I0292P0\\SQLEXPRESS;Database=AspnetIdentityv2;Trusted_Connection=True;MultipleActiveResultSets=true";
+                connectionString = "Server=DESKTOP-I0292P0\\SQLEXPRESS;Database=AspnetIdentityv2;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=true";
             }
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
